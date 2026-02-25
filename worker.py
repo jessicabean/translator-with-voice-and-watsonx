@@ -10,7 +10,7 @@ PROJECT_ID= "skills-network"
 
 # Define the credentials 
 credentials = {
-    "url": "https://us-south.ml.cloud.ibm.com"
+	"url": "https://us-south.ml.cloud.ibm.com"
 	#"apikey": API_KEY
 }
 	
@@ -23,17 +23,17 @@ from ibm_watson_machine_learning.metanames import GenTextParamsMetaNames as GenP
 from ibm_watson_machine_learning.foundation_models.utils.enums import DecodingMethods
 
 parameters = {
-    GenParams.DECODING_METHOD: DecodingMethods.GREEDY,
-    GenParams.MIN_NEW_TOKENS: 1,
-    GenParams.MAX_NEW_TOKENS: 1024
+	GenParams.DECODING_METHOD: DecodingMethods.GREEDY,
+	GenParams.MIN_NEW_TOKENS: 1,
+	GenParams.MAX_NEW_TOKENS: 1024
 }
 
 # Define the LLM
 model = Model(
-    model_id=model_id,
-    params=parameters,
-    credentials=credentials,
-    project_id=PROJECT_ID
+	model_id=model_id,
+	params=parameters,
+	credentials=credentials,
+	project_id=PROJECT_ID
 )
 
 
@@ -64,40 +64,40 @@ def speech_to_text(audio_binary):
 
 def text_to_speech(text, voice=""):
 	# Set up Watson Text-to-Speech HTTP Api url
-	base_url = 'https://sn-watson-stt.labs.skills.network'
-    api_url = base_url + '/text-to-speech/api/v1/synthesize?output=output_text.wav'
+	base_url = 'https://sn-watson-tts.labs.skills.network'
+	api_url = base_url + '/text-to-speech/api/v1/synthesize?output=output_text.wav'
 
 	# Adding voice parameter in api_url if the user has selected a preferred voice
 	if voice != "" and voice != "default":
-        api_url += "&voice=" + voice
+		api_url += "&voice=" + voice
 
 	# Set the headers for our HTTP request
-    headers = {
-        'Accept': 'audio/wav',
-        'Content-Type': 'application/json',
-    }
+	headers = {
+		'Accept': 'audio/wav',
+		'Content-Type': 'application/json',
+	}
 
 	# Set the body of our HTTP request
-    json_data = {
-        'text': text,
-    }
+	json_data = {
+		'text': text,
+	}
 
 	# Send a HTTP Post reqeust to Watson Text-to-Speech Service
-    response = requests.post(api_url, headers=headers, json=json_data)
-    print('Text-to-Speech response:', response)
-    return response.content
+	response = requests.post(api_url, headers=headers, json=json_data)
+	print('Text-to-Speech response:', response)
+	return response.content
 
 def watsonx_process_message(user_message):
-    # Set the prompt for Watsonx API - using a strict translation instruction
-    # This version receives English and gives back Spanish; can replace language name for other languages
-    prompt = f"""
-    Translate the following English sentence into Spanish. 
-    Reply ONLY with the translation, no explanations, no formatting, no extra text.
+	# Set the prompt for Watsonx API - using a strict translation instruction
+	# This version receives English and gives back Spanish; can replace language name for other languages
+	prompt = f"""
+	Translate the following English sentence into Italian. 
+	Reply ONLY with the translation, no explanations, no formatting, no extra text.
 
-    English: {user_message}
-    Spanish:
-    """
-    response_text = model.generate_text(prompt=prompt)
-    print("wastonx response:", response_text)
-    return response_text.strip()
+	English: {user_message}
+	Italian
+	"""
+	response_text = model.generate_text(prompt=prompt)
+	print("wastonx response:", response_text)
+	return response_text.strip()
 

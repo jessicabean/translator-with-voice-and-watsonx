@@ -16,7 +16,6 @@ def index():
 
 
 @app.route('/speech-to-text', methods=['POST'])
-@app.route('/speech-to-text', methods=['POST'])
 def speech_to_text_route():
     print("processing Speech-to-Text")
     audio_binary = request.data # Get the user's speech from their request
@@ -65,4 +64,4 @@ def process_message_route():
 
 
 if __name__ == "__main__":
-    app.run(port=8000, host='0.0.0.0')
+    app.run(port=8000, host='0.0.0.0', debug=True)
